@@ -14,18 +14,6 @@ let secondDisplayDOM = document.querySelector('.secondaryDisplay');
 let equalBtnDOM = document.getElementById('equal');
 let clearBtnDOM = document.getElementById('clearBtn')
 
-/*
-store key presses in dispValue, when operator is selected store it in mathOperator and take current state of dispValue, store that number in numOne, update secondDispValue and clear dispValue. user enters the next numbers and presses = take the new value of dispValue and store it in numTwo. += to secodDisplay and make the calculation
-
-//testing logs
-console.log(`dispValue = ${dispValue}`);
-console.log(`numOne = ${numOne}`);
-console.log(`numTwo = ${numTwo}`);
-console.log(`tempNum = ${tempNum}`);
-console.log(dispValueArray)
-
-*/
-
 //populate displayValue with users input
 keypadDOM.addEventListener('click', (event => {
     
@@ -33,36 +21,40 @@ keypadDOM.addEventListener('click', (event => {
     if(!dispValue) { dispValue = event.target.value;} 
     else { dispValue += event.target.value;}
     
-    console.log(`dispValue = ${dispValue}`);
     displayDOM.innerHTML = `${dispValue}`;
 }));
 
 //math operator
-operatorDOM.addEventListener('click', (e) => {
+operatorDOM.addEventListener('click', (event) => {
 
     //get the first set of numbers for the calculation and the math operator
     if (dispValue != null) {
         numOne = dispValue;
         secondDispValue = dispValue;
         dispValue = null;
-        secondDisplayDOM.innerHTML += secondDispValue;
+        secondDisplayDOM.innerHTML = secondDispValue;
     }
 
-    mathOperator = e.target.value;
-    secondDisplayDOM.innerHTML += e.target.value;
+    mathOperator = event.target.value;
+    secondDisplayDOM.innerHTML += event.target.value;
 });
 
 //get the result of the calculation
 equalBtnDOM.addEventListener('click', () => {
 
-        numTwo = dispValue;
-        secondDispValue += mathOperator;
-        secondDispValue += dispValue;
-        dispValue = null;
-        secondDisplayDOM.innerHTML = secondDispValue;
+    numTwo = dispValue;
+    secondDispValue += mathOperator;
+    secondDispValue += dispValue;
+    dispValue = null;
+    secondDisplayDOM.innerHTML = secondDispValue;
 
+    operate(mathOperator, numOne, numTwo);
+
+    //update numOne for the next calculation
+    numOne = result;
+
+    //console logs for testing
     console.log(`result = ${result}`);
-
     console.log(`dispValue = ${dispValue}`);
     console.log(`secondDispValue = ${secondDispValue}`);
     console.log(`numOne = ${numOne}`);
@@ -71,64 +63,80 @@ equalBtnDOM.addEventListener('click', () => {
 });
 
 
-
-
-
-
-
-
 //clear button
 clearBtnDOM.addEventListener('click', () => clear());
 
 function clear(){
     dispValue = null;
-    displayDOM.innerHTML = "0000"
+    secondDispValue = null;
+    secondDisplayDOM.innerHTML = "0000";
+    displayDOM.innerHTML = "0000";
 }
 
-function add (valueOne, valueTwo) {
-    let sum = valueOne + valueTwo
+function add (numOne, numTwo) {
+    result = Number(numOne) + Number(numTwo)
 
-    return sum
+    return result
 }
 
-function subtract (valueOne, valueTwo) {
-    let sum = valueOne - valueTwo
+function subtract (numOne, numTwo) {
+    result = Number(numOne) - Number(numTwo)
 
-    return sum
+    return result
 }
 
-function multiply (valueOne, valueTwo) {
-    let sum = valueOne * valueTwo
+function multiply (numOne, numTwo) {
+    result = Number(numOne) * Number(numTwo)
 
-    return sum
+    return result
 }
 
-function divide (valueOne, valueTwo) {
-    let sum = valueOne / valueTwo
+function divide (numOne, numTwo) {
 
-    return sum
+    //if (numOne || numTwo <= 0) {
+
+    //    clear();
+    //    secondDispValue = "What is this....";
+    //    secondDisplayDOM.innerHTML = "What is this....";
+    //    dispValue = "No Bro, you can't do that!";
+    //    displayDOM.innerHTML = "No Bro, you can't do that!";
+    //} else {
+
+    result = Number(numOne) / Number(numTwo)
+    return result
+    //}
 }
 
-function operate (operator, valueOne, valueTwo) {
+function operate (mathOperator, numOne, numTwo) {
 
-    if (operator === "+") { 
+    if (mathOperator === '+') {
 
-        let sum = add(valueOne, valueTwo);
-        return sum
+        add(numOne, numTwo);
+        displayDOM.innerHTML = result;
 
-    } else if(operator === "-") { 
+    } else if (mathOperator === '-') {
 
-        let sum = subtract(valueOne, valueTwo);
-        return sum
+        subtract(numOne, numTwo);
+        displayDOM.innerHTML = result;
 
-    } else if(operator === "*") { 
+    } else if (mathOperator === '/') {
+        
+        if (numOne <= 0 || numTwo <= 0) {
+            clear();
+            secondDispValue = "What is this....";
+            secondDisplayDOM.innerHTML = "What is this....";
+            dispValue = "No Bro, you can't do that!";
+            displayDOM.innerHTML = "No Bro, you can't do that!";
+        } else {
+            divide(numOne, numTwo);
+            displayDOM.innerHTML = result;
+            secondDisplayDOM.innerHTML = secondDispValue;
+        }
 
-        let sum = multiply(valueOne, valueTwo);
-        return sum
+    } else if (mathOperator === '*') {
 
-    } else if(operator === "/") { 
+        multiply(numOne, numTwo);
+        displayDOM.innerHTML = result;
 
-       let sum = divide(valueOne, valueTwo);
-       return sum
-    } 
+    };
 };
