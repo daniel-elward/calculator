@@ -1,0 +1,69 @@
+*{
+    box-sizing: border-box;
+    font-size: 24px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+html, body {
+    background-color: rgb(54, 119, 65);
+}
+
+button {
+    padding: 20px;
+    font-weight: bold;
+}
+
+.wrapper {
+    width: 400px;
+    padding: 25px 10px;
+    background-color: rgb(59, 59, 59);
+}
+
+.display {
+    margin: 15px 0;
+    background-color: whitesmoke;
+    text-align: right;
+}
+
+.secondaryDisplay {
+    margin: 15px 0;
+    background-color: whitesmoke;
+    text-align: right;
+}
+
+.keypadWrapper {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.keyPadOperators>button {
+    background-color: grey;
+}
+
+.keyPadOperators {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0;
+    width: 100px;
+}
+
+.keyPadNumbers>button {
+    color:white;
+    margin: 2px;
+    background-color: rgb(29, 29, 29);
+}
+
+.keyPadNumbers {
+    display: flex;
+    flex:1 0 1;
+    flex-wrap: wrap;
+    width: 250px;
+}
+
+#clearBtn>button {
+    background-color: red;
+}
+
+#equal>button {
+    background-color: red;
+}
