@@ -1,9 +1,9 @@
-let dispValue;
-let secondDispValue;
-let numOne;
-let numTwo;
-let result;
-let mathOperator;
+let dispValue = null;
+let secondDispValue = null;
+let numOne = null;
+let numTwo = null;
+let result = null;
+let mathOperator = null;
 
 // DOM selection
 let keypadDOM = document.querySelector('.keyPadNumbers');
@@ -12,6 +12,7 @@ let displayDOM = document.querySelector('.display');
 let secondDisplayDOM = document.querySelector('.secondaryDisplay');
 let equalBtnDOM = document.getElementById('equal');
 let clearBtnDOM = document.getElementById('clearBtn')
+let testingLogDOM = document.getElementById('logs')
 
 //populate displayValue with users input
 keypadDOM.addEventListener('click', (event => {
@@ -26,7 +27,7 @@ keypadDOM.addEventListener('click', (event => {
 //math operator
 operatorDOM.addEventListener('click', (event) => {
     //if user enters a second operator selection, get the sum of the current selections then get the first set of numbers for the calculation and the math operator
-    if (numOne >= 0 && mathOperator != null) {
+    if (numOne != null && mathOperator != null) {
 
         numTwo = dispValue;
         operate(mathOperator, numOne, numTwo);
@@ -52,24 +53,21 @@ operatorDOM.addEventListener('click', (event) => {
 //get the result of the calculation
 equalBtnDOM.addEventListener('click', () => {
 
-    if (numOne === null || numTwo === null){
-        secondDisplayDOM.innerHTML = "Hey! ....";
-        displayDOM.innerHTML = "Maybe try entering some numbers?";
-    };
-
-    numTwo = dispValue;
-    secondDispValue += mathOperator;
-    secondDispValue += dispValue;
-    dispValue = null;
-    secondDisplayDOM.innerHTML = secondDispValue;
-
-    operate(mathOperator, numOne, numTwo);
-
-    //update numOne for the next calculation
-    numOne = result;
+    //prevents equal sign running when no numbers are stored
+    if (numOne === null || mathOperator === null){
+        secondDisplayDOM.innerHTML = "Hey! ... Maybe try ";
+        displayDOM.innerHTML = "entering some numbers?";
+    } else {
+        numTwo = dispValue;
+        secondDispValue += mathOperator;
+        secondDispValue += dispValue;
+        dispValue = null;
+        secondDisplayDOM.innerHTML = secondDispValue;
     
-
-
+        operate(mathOperator, numOne, numTwo);
+        //update numOne for the next calculation
+        numOne = result;
+    }
 });
 
 
@@ -82,31 +80,43 @@ function clear(){
     result = null;
     numOne = null;
     numTwo = null;
+    mathOperator = null;
     secondDisplayDOM.innerHTML = "0000";
     displayDOM.innerHTML = "0000";
 }
 
+//logs for testing
+//testingLogDOM.addEventListener('click', testingLogs);
+
+function testingLogs() {
+    console.log(`numOne = ${numOne}`)
+    console.log(`numTwo = ${numTwo}`)
+    console.log(`mathOperator = ${mathOperator}`)
+    console.log(`result = ${result}`)
+    console.log(`-------------`)
+};
+
 function add (numOne, numTwo) {
     result = Number(numOne) + Number(numTwo)
-    //result = result.toFixed(2);
+    result = Math.round(result * 100) / 100
     return result
 }
 
 function subtract (numOne, numTwo) {
     result = Number(numOne) - Number(numTwo)
-    //result = result.toFixed(2);
+    result = Math.round(result * 100) / 100
     return result
 }
 
 function multiply (numOne, numTwo) {
     result = Number(numOne) * Number(numTwo)
-    //result = result.toFixed(2);
+    result = Math.round(result * 100) / 100
     return result
 }
 
 function divide (numOne, numTwo) {
     result = Number(numOne) / Number(numTwo)
-    //result = result.toFixed(2);
+    result = Math.round(result * 100) / 100
     return result
 }
 
